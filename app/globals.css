@@ -60,8 +60,11 @@ html, body {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.15s;
+  border: none;
+  width: 100%;
 }
 .upload-btn:hover { background: var(--accent-hover); }
+.upload-btn:disabled { background: var(--border); cursor: not-allowed; }
 
 .upload-status {
   font-size: 12px;

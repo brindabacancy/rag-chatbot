@@ -1,8 +1,8 @@
 node_modules/
-server/.env
-server/uploads/*
-!server/uploads/.gitkeep
-server/data/*
-!server/data/.gitkeep
+.env
+.env.local
+.next/
+data/*
+!data/.gitkeep
 *.log
 .DS_Store
