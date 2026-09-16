@@ -30,7 +30,7 @@ from the content you uploaded (with cited sources).
 │            │                       │  1. embed the question          │
 │            │                       │  2. top-K similarity search     │
 │            │◀─────────────────────  │  3. build grounded prompt       │
-│  streamed  │   token / sources /   │  4. stream answer from Claude   │
+│  streamed  │   token / sources /   │  4. stream answer from Gemini   │
 │  answer    │   done events         └───────────────────────────────┘
 └────────────┘
 ```
@@ -46,23 +46,23 @@ no separate backend server or build step to coordinate.
 | Chunking | Custom recursive, separator-aware splitter (`lib/chunker.js`) — splits on paragraph → line → sentence → word boundaries with configurable overlap, so chunks stay coherent instead of being cut mid-sentence |
 | Embeddings | `@xenova/transformers` running `Xenova/all-MiniLM-L6-v2` fully locally (ONNX runtime, CPU) — no external API, no extra cost |
 | Vector store | `vectra` — a lightweight, file-based local vector index (cosine similarity + metadata filtering), persisted under `data/` |
-| Generation | `@anthropic-ai/sdk` (Claude), streamed via Server-Sent Events so the UI shows the answer as it's generated |
+| Generation | `@google/genai` (Gemini), streamed via Server-Sent Events so the UI shows the answer as it's generated |
 | Document registry | Small JSON file tracking per-document metadata (filename, size, chunk count, upload time) so the sidebar can list/delete documents |
 
 Why these choices: everything runs as a single `next dev`/`next start` process
 with no external services to stand up (no Docker, no hosted vector DB) —
 install deps, set one API key, run. Embeddings are local so ingestion has no
 external dependency or per-chunk cost; only the final answer generation calls
-out to Claude.
+out to Gemini.
 
 ## Setup
 
-**Requirements:** Node.js 20.9+, an [Anthropic API key](https://console.anthropic.com/).
+**Requirements:** Node.js 20.9+, a [Gemini API key](https://aistudio.google.com/apikey) (free tier available).
 
 ```bash
 npm install
 cp .env.example .env
-# edit .env and set ANTHROPIC_API_KEY=sk-ant-...
+# edit .env and set GEMINI_API_KEY=...
 npm run dev
 ```
 
@@ -77,8 +77,8 @@ For a production build: `npm run build && npm start`.
 
 | Variable | Default | Description |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | — | **required** |
-| `ANTHROPIC_MODEL` | `claude-sonnet-5` | Model used to generate answers |
+| `GEMINI_API_KEY` | — | **required** |
+| `GEMINI_MODEL` | `gemini-3-flash-lite` | Model used to generate answers |
 | `CHUNK_SIZE` | `900` | Target characters per chunk |
 | `CHUNK_OVERLAP` | `150` | Overlap between consecutive chunks |
 | `TOP_K` | `5` | Number of chunks retrieved per question |

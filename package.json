@@ -2,14 +2,14 @@
   "name": "rag-chatbot",
   "version": "1.0.0",
   "private": true,
-  "description": "Full-stack RAG chatbot built with Next.js: document ingestion, local embeddings, vector search and Claude-powered answer generation.",
+  "description": "Full-stack RAG chatbot built with Next.js: document ingestion, local embeddings, vector search and Gemini-powered answer generation.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.32.1",
+    "@google/genai": "^2.22.0",
     "@xenova/transformers": "^2.17.2",
     "mammoth": "^1.8.0",
     "next": "^16.3.5",
